@@ -35,7 +35,7 @@ public class NotificationConsumerService {
     }
 
     @RabbitListener(queues = RabbitQueueConfig.INVITATION_QUEUE, containerFactory = "rabbitListenerContainerFactory")
-    public void consumeInvitationQueue(@Valid InvitationPayload message, @Header (AmqpHeaders.MESSAGE_ID) String messageId) throws Exception {
+    public void consumeInvitationQueue(@Valid InvitationPayload message, @Header(AmqpHeaders.MESSAGE_ID) String messageId) throws Exception {
         System.out.println("Message received inside invitation::::::::::: " + message);
 
         // save in database to persist notification

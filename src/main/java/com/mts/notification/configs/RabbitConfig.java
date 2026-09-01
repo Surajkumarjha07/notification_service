@@ -64,6 +64,10 @@ public class RabbitConfig implements RabbitListenerConfigurer {
                 "com.mts.tenant.DTOs.notificationDTOs.RegistrationPayload",
                 com.mts.notification.DTOs.RegistrationPayload.class
         );
+        idClassMapping.put(
+                "com.mts.tenant.DTOs.notificationDTOs.InvitationPayload",
+                com.mts.notification.DTOs.InvitationPayload.class
+        );
         classMapper.setIdClassMapping(idClassMapping);
         classMapper.setTrustedPackages("*");
 
