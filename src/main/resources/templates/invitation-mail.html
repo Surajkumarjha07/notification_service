@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Invitation</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f4f7; font-family: Arial, Helvetica, sans-serif;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f7; padding: 30px 0;">
+    <tr>
+        <td align="center">
+
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+
+                <!-- Header -->
+                <tr>
+                    <td style="background-color:#4CAF50; padding: 24px 40px;">
+                        <h1 style="color:#ffffff; margin:0; font-size:22px;">You're Invited! 🎉</h1>
+                    </td>
+                </tr>
+
+                <!-- Body -->
+                <tr>
+                    <td style="padding: 32px 40px;">
+                        <p style="font-size:16px; color:#333333; margin-top:0;">
+                            Hi there,
+                        </p>
+
+                        <p style="font-size:16px; color:#333333; line-height:1.6;">
+                            <span th:text="${senderName}">Someone</span> has invited you to join
+                            <strong th:text="${organizationName}">an organization</strong> on our platform.
+                            Click the button below to accept the invitation and get started.
+                        </p>
+
+                        <!-- CTA Button -->
+                        <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 28px 0;">
+                            <tr>
+                                <td align="center" style="border-radius:6px; background-color:#4CAF50;">
+                                    <a th:href="${invitationLink}"
+                                       style="display:inline-block; padding:14px 32px; color:#ffffff; text-decoration:none; font-size:16px; font-weight:bold; border-radius:6px;">
+                                        Accept Invitation
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="font-size:14px; color:#777777; line-height:1.6;">
+                            Or copy and paste this link into your browser:<br>
+                            <a th:href="${invitationLink}" th:text="${invitationLink}" style="color:#4CAF50; word-break:break-all;">
+                                https://yourapp.com/invite/xyz
+                            </a>
+                        </p>
+
+                        <p style="font-size:14px; color:#999999; margin-top: 24px;">
+                            If you weren't expecting this invitation, you can safely ignore this email.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td style="background-color:#f4f4f7; padding: 20px 40px; text-align:center;">
+                        <p style="font-size:12px; color:#aaaaaa; margin:0;">
+                            &copy; <span th:text="${#dates.year(#dates.createNow())}">2026</span> YourApp. All rights reserved.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
