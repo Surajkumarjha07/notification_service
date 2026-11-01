@@ -5,11 +5,13 @@ import com.mts.notification.entities.NotificationEntity;
 import com.mts.notification.enums.NotificationStatus;
 import com.mts.notification.repositories.NotificationRepository;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class NotificationService {
 
@@ -35,7 +37,17 @@ public class NotificationService {
         return fetchedMessage.isPresent();
     }
 
-    public void updateNotification() {
+    public void updateNotification(String notificationId, NotificationStatus status) {
+        Optional<NotificationEntity> notification = notificationRepository.findById(notificationId);
 
+        if (notification.isEmpty()) {
+            log.error("No notification found to update for {}", notificationId);
+            return;
+        }
+
+        NotificationEntity n = notification.get();
+
+        n.setStatus(status);
+        notificationRepository.save(n);
     }
 }

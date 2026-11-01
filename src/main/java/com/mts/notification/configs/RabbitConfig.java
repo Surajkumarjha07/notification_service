@@ -60,14 +60,8 @@ public class RabbitConfig implements RabbitListenerConfigurer {
 
         DefaultClassMapper classMapper = new DefaultClassMapper();
         Map<String, Class<?>> idClassMapping = new HashMap<>();
-        idClassMapping.put(
-                "com.mts.tenant.DTOs.notificationDTOs.RegistrationPayload",
-                com.mts.notification.DTOs.RegistrationPayload.class
-        );
-        idClassMapping.put(
-                "com.mts.tenant.DTOs.notificationDTOs.InvitationPayload",
-                com.mts.notification.DTOs.InvitationPayload.class
-        );
+        idClassMapping.put("registration", com.mts.notification.DTOs.RegistrationPayload.class);
+        idClassMapping.put("invitation", com.mts.notification.DTOs.InvitationPayload.class);
         classMapper.setIdClassMapping(idClassMapping);
         classMapper.setTrustedPackages("*");
 
@@ -98,11 +92,11 @@ public class RabbitConfig implements RabbitListenerConfigurer {
     @Bean
     public MessageRecoverer messageRecoverer() {
         return (message, error) -> {
-            if (error.getCause() instanceof MethodArgumentNotValidException validationEx) {
-                System.err.println("Validation failed: " + validationEx.getMessage());
-            } else {
-                System.err.println("Listener error: " + error.getMessage());
-            }
+            Throwable root = error;
+            while (root.getCause() != null) root = root.getCause();
+            System.err.println("Listener error root cause: " + root);
+            System.err.println("Body: " + new String(message.getBody(), java.nio.charset.StandardCharsets.UTF_8));
+            System.err.println("Headers: " + message.getMessageProperties().getHeaders());
         };
     }
 
