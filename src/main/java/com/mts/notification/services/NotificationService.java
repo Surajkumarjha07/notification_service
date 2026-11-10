@@ -34,7 +34,12 @@ public class NotificationService {
     public boolean isMessageAlreadyProcessed(String messageId) {
         Optional<NotificationEntity> fetchedMessage = notificationRepository.findById(messageId);
 
-        return fetchedMessage.isPresent();
+        if (fetchedMessage.isEmpty()) return false;
+
+        NotificationEntity message = fetchedMessage.get();
+
+        return message.getStatus()
+                .equals(NotificationStatus.DELIVERED);
     }
 
     public void updateNotification(String notificationId, NotificationStatus status) {
