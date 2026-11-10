@@ -53,7 +53,6 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Error in sending registration email ===== {}", e.getMessage());
             notificationService.updateNotification(messageId, NotificationStatus.FAILED);
-            schedulerGrpcReporter.updateJobStatus(messageId, "FAILED");
         }
     }
 
@@ -79,7 +78,6 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Error in sending invitation email ===== {}", e.getMessage());
             notificationService.updateNotification(messageId, NotificationStatus.FAILED);
-            schedulerGrpcReporter.updateJobStatus(messageId, "FAILED");
         }
     }
 }
