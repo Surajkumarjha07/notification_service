@@ -20,7 +20,7 @@ public class NotificationConsumerService {
 
     @RabbitListener(queues = RabbitQueueConfig.REGISTRATION_QUEUE, containerFactory = "rabbitListenerContainerFactory")
     public void consumeRegistrationQueue(@Valid RegistrationPayload message, @Header(AmqpHeaders.MESSAGE_ID) String messageId) throws Exception {
-        System.out.println("Message received inside invitation ========= " + message);
+        System.out.println("Message received inside registration consumer ========= " + message);
 
         if (notificationService.isMessageAlreadyProcessed(messageId)) {
             System.out.println("Duplicate message ignored ========= " + messageId);
@@ -36,13 +36,19 @@ public class NotificationConsumerService {
 
     @RabbitListener(queues = RabbitQueueConfig.INVITATION_QUEUE, containerFactory = "rabbitListenerContainerFactory")
     public void consumeInvitationQueue(@Valid InvitationPayload message, @Header(AmqpHeaders.MESSAGE_ID) String messageId) throws Exception {
-        System.out.println("Message received inside invitation::::::::::: " + message);
+        System.out.println("Message received inside invitation consumer ========= " + message);
+
+        if (notificationService.isMessageAlreadyProcessed(messageId)) {
+            System.out.println("Duplicate message ignored ========= " + messageId);
+            return;
+        }
 
         // save in database to persist notification
         notificationService.saveNotification(message, messageId);
 
         // to fanout notification to user
         emailService.sendInvitationMail(
+                messageId,
                 message.recipient(),
                 message.senderName(),
                 message.organizationName(),
